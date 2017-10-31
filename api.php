@@ -3,7 +3,10 @@
  * This is an extremely simple proxy so that all ClusterRunner API requests can go
  * thru the same host as the dashboard.
  */
-$targetUrl = 'http://' . substr($_SERVER['PATH_INFO'], 1);  // cut off leading "/"
+$targetUrl = substr($_SERVER['PATH_INFO'], 1); // cut off leading "/"
+if (0 != strpos($targetUrl, 'http')) {
+    $targetUrl = 'http://' . $clusterMasterUrl;
+}
 $origin = 'http://' . $_SERVER['HTTP_HOST'];
 
 $ch = curl_init($targetUrl);
